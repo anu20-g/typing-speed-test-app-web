@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Typing Speed & Accuracy Benchmark</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tester-wrap">
+        <h2>Typing Speed Test</h2>
+        <div class="metrics">
+            <span>Time: <b id="timer">30</b>s</span>
+            <span>WPM: <b id="wpm">0</b></span>
+            <span>Accuracy: <b id="acc">100</b>%</span>
+        </div>
+        <p id="quote" class="quote-text">The quick brown fox jumps over the lazy dog near the riverbank.</p>
+        <textarea id="typedInput" placeholder="Start typing here..." rows="4"></textarea>
+        <button onclick="resetTest()" class="reset-btn">Restart Test</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+body { background: #f8fafc; font-family: sans-serif; display: flex; justify-content: center; padding-top: 3rem; }
+.tester-wrap { background: #fff; width: 480px; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.metrics { display: flex; justify-content: space-between; margin-bottom: 1.2rem; font-size: 1rem; }
+.quote-text { background: #f1f5f9; padding: 1rem; border-radius: 6px; font-size: 1.05rem; line-height: 1.5; color: #334155; }
+textarea { width: 100%; box-sizing: border-box; padding: 0.7rem; margin-top: 1rem; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 1rem; }
+.reset-btn { margin-top: 1rem; background: #2563eb; color: #fff; border: none; padding: 0.6rem 1.4rem; border-radius: 4px; cursor: pointer; }

@@ -1,0 +1,1 @@
+# Typing Speed Test Application - Team 1\n\nMeasure typing speed and accuracy using a displayed sample passage and timer.\n\n## Preview\nOpen `index.html` in any modern web browser.\n
