@@ -3,95 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KeySpeed | Live Typing Speed & Accuracy Benchmark</title>
+    <title>TypeEngine &mdash; Minimalist Typing Speed Benchmark</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="test-container">
-        <header class="app-header">
+<body data-theme="serika_dark">
+    <div class="app-container">
+        <!-- Header / Logo & Theme Switcher -->
+        <header class="header">
             <div class="logo">
-                <span class="icon">⌨️</span>
-                <h1>KeySpeed Benchmark</h1>
+                <span class="logo-accent">type</span>engine
             </div>
-            <p class="subtitle">Live Typing Speed (WPM) & Keystroke Accuracy Analysis</p>
+            <div class="theme-selector-wrap">
+                <label for="themeSelect">theme:</label>
+                <select id="themeSelect" class="theme-select">
+                    <option value="serika_dark" selected>serika dark</option>
+                    <option value="carbon">carbon</option>
+                    <option value="nord">nord</option>
+                    <option value="dracula">dracula</option>
+                </select>
+            </div>
         </header>
 
-        <!-- Controls Bar -->
-        <section class="controls-bar">
-            <div class="control-group">
-                <span class="label">Duration:</span>
-                <button type="button" class="btn-time active" data-time="30">30s</button>
-                <button type="button" class="btn-time" data-time="60">60s</button>
-                <button type="button" class="btn-time" data-time="120">120s</button>
+        <!-- Test Configuration Bar (Time / Words Modes) -->
+        <div class="config-bar">
+            <div class="config-group" id="modeGroup">
+                <button class="config-btn active" data-mode="time">time</button>
+                <button class="config-btn" data-mode="words">words</button>
             </div>
-            <div class="control-group">
-                <button type="button" id="btnNewPassage" class="btn-action">New Passage 🔄</button>
-                <button type="button" id="btnRestart" class="btn-action btn-danger">Reset</button>
-            </div>
-        </section>
-
-        <!-- Live Telemetry Stats -->
-        <section class="telemetry-bar">
-            <div class="stat-card">
-                <span class="stat-label">Time Remaining</span>
-                <span id="timerVal" class="stat-val highlight">30s</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Gross WPM</span>
-                <span id="wpmVal" class="stat-val">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Net WPM</span>
-                <span id="netWpmVal" class="stat-val">0</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Accuracy</span>
-                <span id="accVal" class="stat-val">100%</span>
-            </div>
-        </section>
-
-        <!-- Text Display Arena -->
-        <main class="arena-section">
-            <div id="textDisplay" class="text-display" tabindex="0">
-                <!-- Spans with characters injected dynamically -->
-            </div>
-            <input type="text" id="typeInput" class="type-input" autofocus autocomplete="off" autocapitalize="off" spellcheck="false">
-            <p class="arena-hint">💡 Click on the text arena or start typing directly to begin the countdown.</p>
-        </main>
-
-        <!-- Final Report Modal -->
-        <div id="resultModal" class="modal-overlay hidden">
-            <div class="modal-card">
-                <h2 class="modal-title">🏁 Typing Benchmark Concluded</h2>
-                <div class="modal-stats">
-                    <div class="modal-stat">
-                        <span>Net WPM</span>
-                        <b id="finalNetWpm">0</b>
-                    </div>
-                    <div class="modal-stat">
-                        <span>Accuracy</span>
-                        <b id="finalAcc">0%</b>
-                    </div>
-                    <div class="modal-stat">
-                        <span>Keystrokes</span>
-                        <b id="finalStrokes">0</b>
-                    </div>
-                    <div class="modal-stat">
-                        <span>Errors</span>
-                        <b id="finalErrors">0</b>
-                    </div>
-                </div>
-                <button type="button" id="modalRetryBtn" class="btn-primary-large">Take Test Again</button>
+            <div class="divider"></div>
+            <div class="config-group" id="subModeGroup">
+                <!-- Dynamically populated numbers based on mode -->
+                <button class="config-btn" data-val="15">15</button>
+                <button class="config-btn active" data-val="30">30</button>
+                <button class="config-btn" data-val="60">60</button>
+                <button class="config-btn" data-val="120">120</button>
             </div>
         </div>
 
-        <footer class="app-footer">
-            <p>Calculated using standardized typing metrics: 5 strokes per standard word • Live DOM character verification</p>
-        </footer>
+        <!-- Live Live Stat Tracker (Hidden until typing begins) -->
+        <div class="live-tracker">
+            <span id="liveTimer" class="live-val">30</span>
+        </div>
+
+        <!-- Active Words Arena -->
+        <main class="words-wrapper" id="wordsWrapper">
+            <div id="wordsContainer" class="words-container">
+                <!-- Words and characters populated here -->
+            </div>
+            <input type="text" id="hiddenInput" class="hidden-input" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </main>
+
+        <!-- Restart Prompt Tooltip -->
+        <div class="restart-hint">
+            <button id="restartBtn" class="restart-icon-btn" title="Restart Test">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            </button>
+            <span><kbd>tab</kbd> + <kbd>enter</kbd> to restart</span>
+        </div>
+
+        <!-- Monkeytype-Style Result Screen -->
+        <div id="resultsScreen" class="results-screen hidden">
+            <div class="results-grid">
+                <div class="result-block main-wpm">
+                    <span class="res-label">wpm</span>
+                    <span id="resWpm" class="res-num">0</span>
+                </div>
+                <div class="result-block main-acc">
+                    <span class="res-label">acc</span>
+                    <span id="resAcc" class="res-num">100%</span>
+                </div>
+            </div>
+
+            <div class="secondary-stats">
+                <div class="sec-item">
+                    <span>test type</span>
+                    <b id="resTestType">time 30</b>
+                </div>
+                <div class="sec-item">
+                    <span>raw wpm</span>
+                    <b id="resRawWpm">0</b>
+                </div>
+                <div class="sec-item">
+                    <span>characters</span>
+                    <b id="resChars">0/0/0/0</b>
+                    <small>(correct / incorrect / extra / missed)</small>
+                </div>
+                <div class="sec-item">
+                    <span>time</span>
+                    <b id="resTime">30s</b>
+                </div>
+            </div>
+
+            <button id="nextTestBtn" class="btn-next">Next Test &rarr;</button>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
