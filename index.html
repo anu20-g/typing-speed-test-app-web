@@ -2,20 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Typing Speed & Accuracy Benchmark</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeySpeed | Live Typing Speed & Accuracy Benchmark</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="tester-wrap">
-        <h2>Typing Speed Test</h2>
-        <div class="metrics">
-            <span>Time: <b id="timer">30</b>s</span>
-            <span>WPM: <b id="wpm">0</b></span>
-            <span>Accuracy: <b id="acc">100</b>%</span>
+    <div class="test-container">
+        <header class="app-header">
+            <div class="logo">
+                <span class="icon">⌨️</span>
+                <h1>KeySpeed Benchmark</h1>
+            </div>
+            <p class="subtitle">Live Typing Speed (WPM) & Keystroke Accuracy Analysis</p>
+        </header>
+
+        <!-- Controls Bar -->
+        <section class="controls-bar">
+            <div class="control-group">
+                <span class="label">Duration:</span>
+                <button type="button" class="btn-time active" data-time="30">30s</button>
+                <button type="button" class="btn-time" data-time="60">60s</button>
+                <button type="button" class="btn-time" data-time="120">120s</button>
+            </div>
+            <div class="control-group">
+                <button type="button" id="btnNewPassage" class="btn-action">New Passage 🔄</button>
+                <button type="button" id="btnRestart" class="btn-action btn-danger">Reset</button>
+            </div>
+        </section>
+
+        <!-- Live Telemetry Stats -->
+        <section class="telemetry-bar">
+            <div class="stat-card">
+                <span class="stat-label">Time Remaining</span>
+                <span id="timerVal" class="stat-val highlight">30s</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Gross WPM</span>
+                <span id="wpmVal" class="stat-val">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Net WPM</span>
+                <span id="netWpmVal" class="stat-val">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Accuracy</span>
+                <span id="accVal" class="stat-val">100%</span>
+            </div>
+        </section>
+
+        <!-- Text Display Arena -->
+        <main class="arena-section">
+            <div id="textDisplay" class="text-display" tabindex="0">
+                <!-- Spans with characters injected dynamically -->
+            </div>
+            <input type="text" id="typeInput" class="type-input" autofocus autocomplete="off" autocapitalize="off" spellcheck="false">
+            <p class="arena-hint">💡 Click on the text arena or start typing directly to begin the countdown.</p>
+        </main>
+
+        <!-- Final Report Modal -->
+        <div id="resultModal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2 class="modal-title">🏁 Typing Benchmark Concluded</h2>
+                <div class="modal-stats">
+                    <div class="modal-stat">
+                        <span>Net WPM</span>
+                        <b id="finalNetWpm">0</b>
+                    </div>
+                    <div class="modal-stat">
+                        <span>Accuracy</span>
+                        <b id="finalAcc">0%</b>
+                    </div>
+                    <div class="modal-stat">
+                        <span>Keystrokes</span>
+                        <b id="finalStrokes">0</b>
+                    </div>
+                    <div class="modal-stat">
+                        <span>Errors</span>
+                        <b id="finalErrors">0</b>
+                    </div>
+                </div>
+                <button type="button" id="modalRetryBtn" class="btn-primary-large">Take Test Again</button>
+            </div>
         </div>
-        <p id="quote" class="quote-text">The quick brown fox jumps over the lazy dog near the riverbank.</p>
-        <textarea id="typedInput" placeholder="Start typing here..." rows="4"></textarea>
-        <button onclick="resetTest()" class="reset-btn">Restart Test</button>
+
+        <footer class="app-footer">
+            <p>Calculated using standardized typing metrics: 5 strokes per standard word • Live DOM character verification</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
